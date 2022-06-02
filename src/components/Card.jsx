@@ -1,6 +1,11 @@
 import React from 'react'
 import '../scss/components/Card.scss'
 
+import btnChecked from '../assets/img/Card/btn-checked.svg'
+import btnPlus from '../assets/img/Card/btn-plus.svg'
+import heartActive from '../assets/img/Card/heart-active.svg'
+import heartNone from '../assets/img/Card/heart-none.svg'
+
 function Card({ id, imageUrl, title, price, addToFavorite, addToCart }) {
 	const [isAdded, setIsAdded] = React.useState(false)
 	const [isFavorite, setIsFavorite] = React.useState(false)
@@ -19,12 +24,7 @@ function Card({ id, imageUrl, title, price, addToFavorite, addToCart }) {
 		<div className="content__card card">
 			<div className="card__image">
 				<button onClick={onClickFavorite} className="card__favorite">
-					<img
-						width={22}
-						height={22}
-						src={isFavorite ? '/img/heart-active.svg' : '/img/heart-none.svg'}
-						alt="unliked"
-					/>
+					<img width={22} height={22} src={isFavorite ? heartActive : heartNone} alt="unliked" />
 				</button>
 				<img width={133} height={112} src={imageUrl} alt="sneakers" />
 			</div>
@@ -36,7 +36,7 @@ function Card({ id, imageUrl, title, price, addToFavorite, addToCart }) {
 				<img
 					onClick={onClickPlus}
 					className="card__plus"
-					src={isAdded ? '/img/btn-checked.svg' : '/img/btn-plus.svg'}
+					src={isAdded ? btnChecked : btnPlus}
 					alt="plus"
 				/>
 			</div>

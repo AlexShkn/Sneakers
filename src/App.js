@@ -8,7 +8,6 @@ import Home from './pages/Home'
 import Favorites from './pages/Favorites'
 import Order from './pages/Order'
 import NotFound from './pages/NotFound'
-// import Slider from './components/Slider'
 
 function App() {
 	const [catalog, setCatalog] = React.useState([])
@@ -49,7 +48,6 @@ function App() {
 					favoriteItems={favoriteItems}
 					onOpenCart={() => setCartOpened(true)}
 				/>
-				{/* <Slider /> */}
 				<div className="content">
 					<Routes>
 						<Route
@@ -64,8 +62,8 @@ function App() {
 								/>
 							}
 						/>
-						<Route path="favorites" element={<Favorites favoriteItems={favoriteItems} />} />
-						<Route path="order" element={<Order />} />
+						<Route path="/favorites" element={<Favorites favoriteItems={favoriteItems} />} />
+						<Route path="/order" element={<Order />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</div>

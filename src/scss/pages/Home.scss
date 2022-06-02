@@ -1,5 +1,5 @@
 .content {
-	padding: 40px;
+	padding: 20px 40px 40px 40px;
 	width: 100%;
 
 	&__top {
@@ -35,7 +35,7 @@
 
 		input {
 			padding-left: 45px;
-			background: url('../../../public/img/search.svg') 18px center no-repeat;
+			background: url('../../assets/img/Home/search.svg') 18px center no-repeat;
 			width: 100%;
 			border: none;
 			outline: none;

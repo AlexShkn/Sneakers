@@ -2,13 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../scss/components/Drawer.scss'
 
+import drawerClose from '../assets/img/btn-remove.svg'
+import arrowBtn from '../assets/img/arrow.svg'
+import emptyCart from '../assets/img/empty-cart.jpg'
+
 function Drawer({ cartItems = [], onClose, onRemoveItem }) {
 	return (
 		<div className="drawer">
 			<div className="drawer__panel">
 				<div className="drawer__top">
 					<h2 className="drawer__title">Корзина</h2>
-					<img onClick={onClose} className="drawer__close" src="/img/arrow-close.svg" alt="" />
+					<img onClick={onClose} className="drawer__close" src={drawerClose} alt="" />
 				</div>
 				{cartItems.length ? (
 					<div className="drawer__content">
@@ -32,7 +36,7 @@ function Drawer({ cartItems = [], onClose, onRemoveItem }) {
 									<img
 										onClick={() => onRemoveItem(item.id)}
 										className="item-drawer__del"
-										src="/img/btn-remove.svg"
+										src={drawerClose}
 										alt=""
 									/>
 								</div>
@@ -50,18 +54,18 @@ function Drawer({ cartItems = [], onClose, onRemoveItem }) {
 							<Link to="order">
 								<button onClick={onClose} className="footer-drawers__button green-button">
 									Оформить заказ
-									<img src="/img/arrow.svg" alt="" />
+									<img src={arrowBtn} alt="" />
 								</button>
 							</Link>
 						</div>
 					</div>
 				) : (
 					<div className="drawer__empty">
-						<img width={120} height={120} src="img/empty-cart.jpg" alt="" />
+						<img width={120} height={120} src={emptyCart} alt="" />
 						<h2>Корзина пуста</h2>
 						<p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ</p>
 						<button onClick={onClose} className="green-button">
-							<img src="img/arrow.svg" alt="back" />
+							<img src={arrowBtn} alt="back" />
 							Вернуться назад
 						</button>
 					</div>

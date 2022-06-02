@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import arrowBtn from '../assets/img/arrow.svg'
+
 function Order() {
 	return (
 		<div className="drawer__empty">
@@ -12,7 +14,7 @@ function Order() {
 
 			<Link to={'/'}>
 				<button className="green-button">
-					<img src="img/arrow.svg" alt="back" />
+					<img src={arrowBtn} alt="back" />
 					Вернуться назад
 				</button>
 			</Link>
