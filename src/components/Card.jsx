@@ -1,4 +1,5 @@
 import React from 'react'
+
 import '../scss/components/Card.scss'
 
 import btnChecked from '../assets/img/Card/btn-checked.svg'

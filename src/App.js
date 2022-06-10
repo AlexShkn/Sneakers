@@ -9,6 +9,8 @@ import Favorites from './pages/Favorites'
 import Order from './pages/Order'
 import NotFound from './pages/NotFound'
 
+import btnRemove from './assets/img/btn-remove.svg'
+
 function App() {
 	const [catalog, setCatalog] = React.useState([])
 	const [cartItems, setCartItems] = React.useState([])
@@ -40,6 +42,7 @@ function App() {
 					cartItems={cartItems}
 					onClose={() => setCartOpened(false)}
 					onRemoveItem={onRemoveItem}
+					btnRemove={btnRemove}
 				/>
 			)}
 			<div className="container">
@@ -59,6 +62,7 @@ function App() {
 									setFavoriteItems={setFavoriteItems}
 									catalog={catalog}
 									baseUrl={baseUrl}
+									btnRemove={btnRemove}
 								/>
 							}
 						/>

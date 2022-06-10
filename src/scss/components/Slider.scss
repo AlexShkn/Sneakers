@@ -9,7 +9,6 @@
 
 .swiper-slide {
 	position: relative;
-	padding: 0 60px;
 }
 
 .swiper-button-prev,
@@ -28,10 +27,10 @@
 }
 
 .swiper-button-prev {
-	left: 40px;
+	left: 10px;
 }
 .swiper-button-next {
-	right: 40px;
+	right: 10px;
 }
 .swiper-button-next.swiper-button-disabled,
 .swiper-button-prev.swiper-button-disabled {

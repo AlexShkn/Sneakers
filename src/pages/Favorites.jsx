@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+
+import Empty from '../components/Empty'
 import Card from '../components/Card'
 
 function Favorites({ favoriteItems }) {
@@ -24,20 +26,11 @@ function Favorites({ favoriteItems }) {
 					</div>
 				</div>
 			) : (
-				<div className="drawer__empty">
-					<div className="drawer__description">
-						<span>😧</span>
-						<h2>Закладок нет :(</h2>
-						<p>Вы ничего не добавляли в закладки</p>
-					</div>
-
-					<Link to={'/'}>
-						<button className="green-button">
-							<img src="img/arrow.svg" alt="back" />
-							Вернуться назад
-						</button>
-					</Link>
-				</div>
+				<Empty
+					title={'Закладок нет :('}
+					description={'Вы ничего не добавляли в закладки'}
+					smile={'😧'}
+				/>
 			)}
 		</>
 	)

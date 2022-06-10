@@ -1,14 +1,13 @@
 import React from 'react'
 import axios from 'axios'
 
+import '../scss/pages/Home.scss'
+
 import Card from '../components/Card'
 import Skeleton from '../components/Skeleton'
-import '../scss/pages/Home.scss'
 import Slider from '../components/Slider'
 
-import btnRemove from '../assets/img/btn-remove.svg'
-
-function Home({ catalog, setCartItems, setFavoriteItems, baseUrl }) {
+function Home({ catalog, setCartItems, setFavoriteItems, baseUrl, btnRemove }) {
 	const [searchValue, setSearchValue] = React.useState('')
 
 	const onAddToCart = obj => {
@@ -26,7 +25,6 @@ function Home({ catalog, setCartItems, setFavoriteItems, baseUrl }) {
 	return (
 		<>
 			<Slider />
-
 			<div className="content__top">
 				<h1 className="content__title main-title">
 					{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все крассовки'}

@@ -1,20 +1,24 @@
 import React from 'react'
-import AppContext from '../context'
+import { Link } from 'react-router-dom'
 
-import emptyCart from '../assets/img/empty-cart.jpg'
+// import AppContext from '../context'
 
-const Empty = ({ title, image, description }) => {
-	const { setCartOpened } = React.useContext(AppContext)
+import arrowBtn from '../assets/img/arrow.svg'
+
+const Empty = ({ smile, title, image, description, onClose }) => {
+	// const { setCartOpened } = React.useContext(AppContext)
 
 	return (
-		<div className="cartEmpty d-flex align-center justify-center flex-column flex">
-			<img className="mb-20" width="120px" src={image} alt="Empty" />
+		<div className="empty">
+			{smile ? <span>{smile}</span> : <img width={120} height={120} src={image} alt="Empty" />}
 			<h2>{title}</h2>
-			<p className="opacity-6">{description}</p>
-			<button onClick={() => setCartOpened(false)} className="greenButton">
-				Вернуться назад
-				<img src={emptyCart} alt="Arrow" />
-			</button>
+			<p>{description}</p>
+			<Link to={'/'}>
+				<button onClick={onClose} className="green-button">
+					Вернуться назад
+					<img src={arrowBtn} alt="back" />
+				</button>
+			</Link>
 		</div>
 	)
 }
