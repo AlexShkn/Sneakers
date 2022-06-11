@@ -1,25 +1,33 @@
 import React from 'react'
-import axios from 'axios'
 
 import '../scss/pages/Home.scss'
 
 import Card from '../components/Card'
-import Skeleton from '../components/Skeleton'
 import Slider from '../components/Slider'
 
-function Home({ catalog, setCartItems, setFavoriteItems, baseUrl, btnRemove }) {
+function Home({ catalog, cartItems, onAddToCart, onAddToFavorite, isLoading, btnRemove }) {
 	const [searchValue, setSearchValue] = React.useState('')
 
-	const onAddToCart = obj => {
-		axios.post(`${baseUrl}/cart`, obj)
-		setCartItems(prev => [...prev, obj])
-	}
-	const onAddToFavorite = obj => {
-		axios.post(`${baseUrl}/favorite`, obj)
-		setFavoriteItems(prev => [...prev, obj])
-	}
 	const onChangeSearchInput = e => {
 		setSearchValue(e.target.value)
+	}
+
+	const renderItems = () => {
+		const filteredItems = catalog.filter(item =>
+			item.title.toLowerCase().includes(searchValue.toLowerCase()),
+		)
+		return isLoading
+			? [...Array(10)]
+			: filteredItems.map(item => (
+					<Card
+						key={item.id}
+						onFavorite={obj => onAddToFavorite(obj)}
+						addToCart={obj => onAddToCart(obj)}
+						addOn={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+						loading={isLoading}
+						{...item}
+					/>
+			  ))
 	}
 
 	return (
@@ -42,23 +50,7 @@ function Home({ catalog, setCartItems, setFavoriteItems, baseUrl, btnRemove }) {
 				</div>
 			</div>
 			<div className="content__body">
-				<div className="content__list">
-					{catalog.length ? (
-						catalog
-							.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-							.map(item => (
-								<Card
-									addToFavorite={obj => onAddToFavorite(obj)}
-									addToCart={obj => onAddToCart(obj)}
-									key={item.id}
-									{...item}
-								/>
-							))
-					) : (
-						<Skeleton />
-					)}
-					{}
-				</div>
+				<div className="content__list">{renderItems()}</div>
 			</div>
 		</>
 	)

@@ -6,7 +6,7 @@ import logo from '../assets/img/Header/logo.png'
 import cart from '../assets/img/Header/cart.svg'
 import heart from '../assets/img/Header/heart.svg'
 import heartActive from '../assets/img/Header/header-heart-active.svg'
-import user from '../assets/img/Header/user.svg'
+import order from '../assets/img/Header/order.svg'
 
 function Header({ onOpenCart, cartItems, favoriteItems }) {
 	return (
@@ -39,9 +39,11 @@ function Header({ onOpenCart, cartItems, favoriteItems }) {
 							)}
 						</li>
 					</Link>
-					<li className="nav-header__item">
-						<img src={user} alt="Пользователь" />
-					</li>
+					<Link to="/order">
+						<li className="nav-header__item">
+							<img src={order} alt="Order" />
+						</li>
+					</Link>
 				</ul>
 			</nav>
 		</header>

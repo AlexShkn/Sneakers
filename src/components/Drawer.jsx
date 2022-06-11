@@ -7,13 +7,13 @@ import Empty from './Empty'
 import arrowBtn from '../assets/img/arrow.svg'
 import emptyCart from '../assets/img/empty-cart.jpg'
 
-function Drawer({ cartItems = [], onClose, onRemoveItem, btnRemove }) {
+function Drawer({ cartItems = [], onClose, onRemoveItem, drawerClose }) {
 	return (
 		<div className="drawer">
 			<div className="drawer__panel">
 				<div className="drawer__top">
 					<h2 className="drawer__title">Корзина</h2>
-					<img onClick={onClose} className="drawer__close" src={btnRemove} alt="" />
+					<img onClick={onClose} className="drawer__close" src={drawerClose} alt="close" />
 				</div>
 				{cartItems.length ? (
 					<div className="drawer__content">
@@ -37,7 +37,7 @@ function Drawer({ cartItems = [], onClose, onRemoveItem, btnRemove }) {
 									<img
 										onClick={() => onRemoveItem(item.id)}
 										className="item-drawer__del"
-										src={btnRemove}
+										src={drawerClose}
 										alt=""
 									/>
 								</div>

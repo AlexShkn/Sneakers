@@ -5,7 +5,7 @@
 	align-items: center;
 	width: 210px;
 	padding: 20px 29px;
-	border: 1px solid #cec8c8;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 	border-radius: 40px;
 	gap: 14px;
 	transition: all 0.3s ease 0s;
@@ -34,6 +34,44 @@
 		border-radius: 7px;
 		&.favorites {
 			background: #fef0f0;
+		}
+		&.remove {
+			z-index: 0;
+			width: 40px;
+			height: 40px;
+			overflow: hidden;
+			&::before {
+				content: '';
+				position: absolute;
+				z-index: -2;
+				left: -50%;
+				top: -50%;
+				width: 200%;
+				height: 200%;
+				background-color: #bfe2ff;
+				background-repeat: no-repeat;
+				background-size: 50% 50%, 50% 50%;
+				background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+				background-image: linear-gradient(#fff, #fff), linear-gradient(#ff8585, #ff8585),
+					linear-gradient(#fff, #fff), linear-gradient(#ff8585, #ff8585);
+				animation: anim-ramka-5 4s linear infinite;
+			}
+			&::after {
+				content: '';
+				position: absolute;
+				z-index: -1;
+				left: 6px;
+				top: 6px;
+				width: calc(100% - 12px);
+				height: calc(100% - 12px);
+				background: white;
+				border-radius: 5px;
+			}
+			@keyframes anim-ramka-5 {
+				100% {
+					transform: rotate(1turn);
+				}
+			}
 		}
 	}
 

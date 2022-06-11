@@ -16,23 +16,58 @@ function App() {
 	const [cartItems, setCartItems] = React.useState([])
 	const [favoriteItems, setFavoriteItems] = React.useState([])
 	const [cartOpened, setCartOpened] = React.useState(false)
+	const [isLoading, setIsLoading] = React.useState(true)
+
 	const baseUrl = 'https://628cd8df3df57e983ed76950.mockapi.io'
 
 	React.useEffect(() => {
-		axios.get(`${baseUrl}/items`).then(res => {
-			setCatalog(res.data)
-		})
-		axios.get(`${baseUrl}/cart`).then(res => {
-			setCartItems(res.data)
-		})
-		axios.get(`${baseUrl}/favorite`).then(res => {
-			setFavoriteItems(res.data)
-		})
+		async function fetchData() {
+			const itemsResponse = await axios.get(`${baseUrl}/items`)
+			const cartResponse = await axios.get(`${baseUrl}/cart`)
+			const favoriteResponse = await axios.get(`${baseUrl}/favorite`)
+
+			setIsLoading(false)
+			setCatalog(itemsResponse.data)
+			setCartItems(cartResponse.data)
+			setFavoriteItems(favoriteResponse.data)
+		}
+
+		fetchData()
 	}, [])
 
 	const onRemoveItem = id => {
 		axios.delete(`${baseUrl}/cart/${id}`)
 		setCartItems(prev => prev.filter(item => item.id !== id))
+	}
+
+	const onAddToCart = async obj => {
+		try {
+			if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
+				axios.delete(`${baseUrl}/cart/${obj.id}`)
+				setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
+			} else {
+				axios.post(`${baseUrl}/cart`, obj)
+				setCartItems(prev => [...prev, obj])
+			}
+		} catch (error) {
+			alert('Не удалось добавить в корзину')
+		}
+	}
+
+	const onAddToFavorite = async obj => {
+		try {
+			if (favoriteItems.find(favoriteObj => favoriteObj.id === obj.id)) {
+				setTimeout(() => {
+					axios.delete(`${baseUrl}/favorite/${obj.id}`)
+					setFavoriteItems(prev => prev.filter(item => item.id !== obj.id))
+				}, 3000)
+			} else {
+				const { data } = await axios.post(`${baseUrl}/favorite`, obj)
+				setFavoriteItems(prev => [...prev, data])
+			}
+		} catch (error) {
+			alert('Не удалось добавить в закладки')
+		}
 	}
 
 	return (
@@ -42,7 +77,7 @@ function App() {
 					cartItems={cartItems}
 					onClose={() => setCartOpened(false)}
 					onRemoveItem={onRemoveItem}
-					btnRemove={btnRemove}
+					drawerClose={btnRemove}
 				/>
 			)}
 			<div className="container">
@@ -57,17 +92,24 @@ function App() {
 							path="/"
 							element={
 								<Home
-									setCartItems={setCartItems}
-									favoriteItems={favoriteItems}
-									setFavoriteItems={setFavoriteItems}
-									catalog={catalog}
 									baseUrl={baseUrl}
+									catalog={catalog}
+									cartItems={cartItems}
+									setCartItems={setCartItems}
+									onAddToCart={onAddToCart}
+									favoriteItems={favoriteItems}
+									onAddToFavorite={onAddToFavorite}
+									setFavoriteItems={setFavoriteItems}
 									btnRemove={btnRemove}
+									isLoading={isLoading}
 								/>
 							}
 						/>
-						<Route path="/favorites" element={<Favorites favoriteItems={favoriteItems} />} />
-						<Route path="/order" element={<Order />} />
+						<Route
+							path="/favorites"
+							element={<Favorites favoriteItems={favoriteItems} addToFavorite={onAddToFavorite} />}
+						/>
+						<Route path="/order" element={<Order cartItems={cartItems} />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</div>
