@@ -1,4 +1,5 @@
 import React from 'react'
+import AppContext from '../context'
 import Skeleton from './Skeleton'
 
 import '../scss/components/Card.scss'
@@ -8,23 +9,12 @@ import btnPlus from '../assets/img/Card/btn-plus.svg'
 import heartActive from '../assets/img/Card/heart-active.svg'
 import heartNone from '../assets/img/Card/heart-none.svg'
 
-function Card({
-	id,
-	imageUrl,
-	title,
-	price,
-	onFavorite,
-	addToCart,
-	favorited,
-	addOn = false,
-	loading = false,
-}) {
-	const [isAdded, setIsAdded] = React.useState(addOn)
+function Card({ id, imageUrl, title, price, onFavorite, addToCart, favorited, loading = false }) {
+	const { hasAddedItem } = React.useContext(AppContext)
 	const [isFavorite, setIsFavorite] = React.useState(favorited)
 
 	const onClickPlus = () => {
 		addToCart({ id, imageUrl, title, price })
-		setIsAdded(!isAdded)
 	}
 
 	const onClickFavorite = () => {
@@ -57,7 +47,7 @@ function Card({
 						<img
 							onClick={onClickPlus}
 							className="card__plus"
-							src={isAdded ? btnChecked : btnPlus}
+							src={hasAddedItem(id) ? btnChecked : btnPlus}
 							alt="plus"
 						/>
 					</div>

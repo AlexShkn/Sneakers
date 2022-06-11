@@ -7,7 +7,7 @@ import Card from '../components/Card'
 import Slider from '../components/Slider'
 
 function Home({ catalog, isLoading, btnRemove }) {
-	const { hasAddedItem, onAddToFavorite, onAddToCart } = React.useContext(AppContext)
+	const { onAddToFavorite, onAddToCart } = React.useContext(AppContext)
 	const [searchValue, setSearchValue] = React.useState('')
 
 	const onChangeSearchInput = e => {
@@ -18,18 +18,15 @@ function Home({ catalog, isLoading, btnRemove }) {
 		const filteredItems = catalog.filter(item =>
 			item.title.toLowerCase().includes(searchValue.toLowerCase()),
 		)
-		return isLoading
-			? [...Array(10)]
-			: filteredItems.map(item => (
-					<Card
-						key={item.id}
-						onFavorite={obj => onAddToFavorite(obj)}
-						addToCart={obj => onAddToCart(obj)}
-						addOn={hasAddedItem(item && item.id)}
-						loading={isLoading}
-						{...item}
-					/>
-			  ))
+		return (isLoading ? [...Array(10)] : filteredItems).map((item, index) => (
+			<Card
+				key={isLoading ? index : item.id}
+				onFavorite={obj => onAddToFavorite(obj)}
+				addToCart={obj => onAddToCart(obj)}
+				loading={isLoading}
+				{...item}
+			/>
+		))
 	}
 
 	return (
