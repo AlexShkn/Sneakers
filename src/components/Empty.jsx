@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-// import AppContext from '../context'
+import AppContext from '../context'
 
 import arrowBtn from '../assets/img/arrow.svg'
 
-const Empty = ({ smile, title, image, description, onClose }) => {
-	// const { setCartOpened } = React.useContext(AppContext)
+const Empty = ({ smile, title, image, description }) => {
+	const { setCartOpened } = React.useContext(AppContext)
 
 	return (
 		<div className="empty">
@@ -14,7 +14,7 @@ const Empty = ({ smile, title, image, description, onClose }) => {
 			<h2>{title}</h2>
 			<p>{description}</p>
 			<Link to={'/'}>
-				<button onClick={onClose} className="green-button">
+				<button onClick={() => setCartOpened(false)} className="green-button">
 					Вернуться назад
 					<img src={arrowBtn} alt="back" />
 				</button>

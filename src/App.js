@@ -57,7 +57,7 @@ function App() {
 
 	const onAddToFavorite = async obj => {
 		try {
-			if (favoriteItems.find(favoriteObj => favoriteObj.id === obj.id)) {
+			if (favoriteItems.find(favoriteObj => Number(favoriteObj.id) === Number(obj.id))) {
 				setTimeout(() => {
 					axios.delete(`${baseUrl}/favorite/${obj.id}`)
 					setFavoriteItems(prev => prev.filter(item => item.id !== obj.id))
@@ -77,15 +77,18 @@ function App() {
 
 	return (
 		<AppContext.Provider
-			value={{ cartItems, hasAddedItem, favoriteItems, onAddToFavorite, onAddToCart }}>
+			value={{
+				cartItems,
+				hasAddedItem,
+				favoriteItems,
+				setCartItems,
+				onAddToFavorite,
+				onAddToCart,
+				setCartOpened,
+				baseUrl,
+			}}>
 			<div className="wrapper">
-				{cartOpened && (
-					<Drawer
-						onClose={() => setCartOpened(false)}
-						onRemoveItem={onRemoveItem}
-						drawerClose={btnRemove}
-					/>
-				)}
+				{cartOpened && <Drawer onRemoveItem={onRemoveItem} drawerClose={btnRemove} />}
 				<div className="container">
 					<Header onOpenCart={() => setCartOpened(true)} />
 					<div className="content">
@@ -94,7 +97,6 @@ function App() {
 								path="/"
 								element={
 									<Home
-										baseUrl={baseUrl}
 										catalog={catalog}
 										setFavoriteItems={setFavoriteItems}
 										btnRemove={btnRemove}

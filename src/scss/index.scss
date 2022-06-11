@@ -49,6 +49,10 @@ body {
 		position: absolute;
 		transform: translate(-50%, -50%);
 	}
+	&:disabled {
+		background-color: #bebebe;
+		cursor: default;
+	}
 }
 
 .arrow-back {

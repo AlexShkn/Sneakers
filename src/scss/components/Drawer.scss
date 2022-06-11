@@ -137,11 +137,42 @@
 
 	&__count {
 		display: flex;
+		align-items: center;
 		button {
-			border: 1px solid #000;
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid #f2f2f2;
+			color: #f2f2f2;
 			width: 20px;
+			height: 20px;
+			transition: all 0.3s ease 0s;
+			border-radius: 5px;
+			&:hover {
+				border: 1px solid #808080;
+				color: #808080;
+			}
+
+			&:first-child {
+				&::before {
+					content: '-';
+				}
+			}
+			&:last-child {
+				&::before {
+					content: '+';
+				}
+			}
+			&::before {
+				position: absolute;
+				top: 45%;
+				right: 50%;
+				transform: translate(50%, -50%);
+			}
 		}
 		span {
+			color: #808080;
 			margin: 0 10px;
 		}
 	}
