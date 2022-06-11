@@ -6,8 +6,8 @@ import '../scss/pages/Home.scss'
 import Card from '../components/Card'
 import Slider from '../components/Slider'
 
-function Home({ catalog, onAddToCart, onAddToFavorite, isLoading, btnRemove }) {
-	const { hasAddedItem } = React.useContext(AppContext)
+function Home({ catalog, isLoading, btnRemove }) {
+	const { hasAddedItem, onAddToFavorite, onAddToCart } = React.useContext(AppContext)
 	const [searchValue, setSearchValue] = React.useState('')
 
 	const onChangeSearchInput = e => {

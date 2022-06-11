@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AppContext from '../context'
 
 import Empty from '../components/Empty'
 import Card from '../components/Card'
 
 import arrowBack from '../assets/img/arrow-back.svg'
 
-function Favorites({ favoriteItems, addToFavorite }) {
+function Favorites() {
+	const { favoriteItems, onAddToFavorite } = React.useContext(AppContext)
 	return (
 		<>
 			{favoriteItems.length ? (
@@ -22,7 +24,7 @@ function Favorites({ favoriteItems, addToFavorite }) {
 					<div className="content__body">
 						<div className="content__list">
 							{favoriteItems.map(item => (
-								<Card key={item.id} {...item} onFavorite={addToFavorite} favorited={true} />
+								<Card key={item.id} {...item} onFavorite={onAddToFavorite} favorited={true} />
 							))}
 						</div>
 					</div>

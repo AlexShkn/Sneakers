@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AppContext from '../context'
 import '../scss/components/Header.scss'
 
 import logo from '../assets/img/Header/logo.png'
@@ -8,7 +9,8 @@ import heart from '../assets/img/Header/heart.svg'
 import heartActive from '../assets/img/Header/header-heart-active.svg'
 import order from '../assets/img/Header/order.svg'
 
-function Header({ onOpenCart, cartItems, favoriteItems }) {
+function Header({ onOpenCart }) {
+	const { cartItems, favoriteItems } = React.useContext(AppContext)
 	return (
 		<header className="header">
 			<Link to={'/'}>
@@ -25,7 +27,7 @@ function Header({ onOpenCart, cartItems, favoriteItems }) {
 				<ul className="nav-header__list">
 					<li onClick={onOpenCart} className="nav-header__item">
 						<div className="nav-header__cart">
-							{!!cartItems && <span>{cartItems}</span>}
+							{!!cartItems.length && <span>{cartItems.length}</span>}
 							<img src={cart} alt="Корзина" />
 						</div>
 						<span>1000 руб.</span>

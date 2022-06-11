@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AppContext from '../context'
 import Empty from '../components/Empty'
 import Card from '../components/Card'
 
 import arrowBack from '../assets/img/arrow-back.svg'
 
-function Order({ cartItems }) {
+function Order() {
+	const { cartItems } = React.useContext(AppContext)
 	return (
 		<>
 			{cartItems.length ? (

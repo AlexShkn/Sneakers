@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AppContext from '../context'
 import '../scss/components/Drawer.scss'
 
 import Empty from './Empty'
@@ -7,7 +8,8 @@ import Empty from './Empty'
 import arrowBtn from '../assets/img/arrow.svg'
 import emptyCart from '../assets/img/empty-cart.jpg'
 
-function Drawer({ cartItems = [], onClose, onRemoveItem, drawerClose }) {
+function Drawer({ onClose, onRemoveItem, drawerClose }) {
+	const { cartItems = [] } = React.useContext(AppContext)
 	return (
 		<div className="drawer">
 			<div className="drawer__panel">

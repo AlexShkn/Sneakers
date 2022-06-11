@@ -76,22 +76,18 @@ function App() {
 	}
 
 	return (
-		<AppContext.Provider value={{ hasAddedItem }}>
+		<AppContext.Provider
+			value={{ cartItems, hasAddedItem, favoriteItems, onAddToFavorite, onAddToCart }}>
 			<div className="wrapper">
 				{cartOpened && (
 					<Drawer
-						cartItems={cartItems}
 						onClose={() => setCartOpened(false)}
 						onRemoveItem={onRemoveItem}
 						drawerClose={btnRemove}
 					/>
 				)}
 				<div className="container">
-					<Header
-						cartItems={cartItems.length}
-						favoriteItems={favoriteItems}
-						onOpenCart={() => setCartOpened(true)}
-					/>
+					<Header onOpenCart={() => setCartOpened(true)} />
 					<div className="content">
 						<Routes>
 							<Route
@@ -100,24 +96,14 @@ function App() {
 									<Home
 										baseUrl={baseUrl}
 										catalog={catalog}
-										cartItems={cartItems}
-										setCartItems={setCartItems}
-										onAddToCart={onAddToCart}
-										favoriteItems={favoriteItems}
-										onAddToFavorite={onAddToFavorite}
 										setFavoriteItems={setFavoriteItems}
 										btnRemove={btnRemove}
 										isLoading={isLoading}
 									/>
 								}
 							/>
-							<Route
-								path="/favorites"
-								element={
-									<Favorites favoriteItems={favoriteItems} addToFavorite={onAddToFavorite} />
-								}
-							/>
-							<Route path="/order" element={<Order cartItems={cartItems} />} />
+							<Route path="/favorites" element={<Favorites />} />
+							<Route path="/order" element={<Order />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>
