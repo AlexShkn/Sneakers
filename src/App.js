@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Routes, Route } from 'react-router-dom'
+import AppContext from './context'
 
 import Drawer from './components/Drawer'
 import Header from './components/Header'
@@ -70,51 +71,59 @@ function App() {
 		}
 	}
 
+	const hasAddedItem = id => {
+		return cartItems.some(obj => Number(obj.id) === Number(id))
+	}
+
 	return (
-		<div className="wrapper">
-			{cartOpened && (
-				<Drawer
-					cartItems={cartItems}
-					onClose={() => setCartOpened(false)}
-					onRemoveItem={onRemoveItem}
-					drawerClose={btnRemove}
-				/>
-			)}
-			<div className="container">
-				<Header
-					cartItems={cartItems.length}
-					favoriteItems={favoriteItems}
-					onOpenCart={() => setCartOpened(true)}
-				/>
-				<div className="content">
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<Home
-									baseUrl={baseUrl}
-									catalog={catalog}
-									cartItems={cartItems}
-									setCartItems={setCartItems}
-									onAddToCart={onAddToCart}
-									favoriteItems={favoriteItems}
-									onAddToFavorite={onAddToFavorite}
-									setFavoriteItems={setFavoriteItems}
-									btnRemove={btnRemove}
-									isLoading={isLoading}
-								/>
-							}
-						/>
-						<Route
-							path="/favorites"
-							element={<Favorites favoriteItems={favoriteItems} addToFavorite={onAddToFavorite} />}
-						/>
-						<Route path="/order" element={<Order cartItems={cartItems} />} />
-						<Route path="*" element={<NotFound />} />
-					</Routes>
+		<AppContext.Provider value={{ hasAddedItem }}>
+			<div className="wrapper">
+				{cartOpened && (
+					<Drawer
+						cartItems={cartItems}
+						onClose={() => setCartOpened(false)}
+						onRemoveItem={onRemoveItem}
+						drawerClose={btnRemove}
+					/>
+				)}
+				<div className="container">
+					<Header
+						cartItems={cartItems.length}
+						favoriteItems={favoriteItems}
+						onOpenCart={() => setCartOpened(true)}
+					/>
+					<div className="content">
+						<Routes>
+							<Route
+								path="/"
+								element={
+									<Home
+										baseUrl={baseUrl}
+										catalog={catalog}
+										cartItems={cartItems}
+										setCartItems={setCartItems}
+										onAddToCart={onAddToCart}
+										favoriteItems={favoriteItems}
+										onAddToFavorite={onAddToFavorite}
+										setFavoriteItems={setFavoriteItems}
+										btnRemove={btnRemove}
+										isLoading={isLoading}
+									/>
+								}
+							/>
+							<Route
+								path="/favorites"
+								element={
+									<Favorites favoriteItems={favoriteItems} addToFavorite={onAddToFavorite} />
+								}
+							/>
+							<Route path="/order" element={<Order cartItems={cartItems} />} />
+							<Route path="*" element={<NotFound />} />
+						</Routes>
+					</div>
 				</div>
 			</div>
-		</div>
+		</AppContext.Provider>
 	)
 }
 

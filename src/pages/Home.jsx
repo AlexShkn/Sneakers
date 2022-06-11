@@ -1,11 +1,13 @@
 import React from 'react'
+import AppContext from '../context'
 
 import '../scss/pages/Home.scss'
 
 import Card from '../components/Card'
 import Slider from '../components/Slider'
 
-function Home({ catalog, cartItems, onAddToCart, onAddToFavorite, isLoading, btnRemove }) {
+function Home({ catalog, onAddToCart, onAddToFavorite, isLoading, btnRemove }) {
+	const { hasAddedItem } = React.useContext(AppContext)
 	const [searchValue, setSearchValue] = React.useState('')
 
 	const onChangeSearchInput = e => {
@@ -23,7 +25,7 @@ function Home({ catalog, cartItems, onAddToCart, onAddToFavorite, isLoading, btn
 						key={item.id}
 						onFavorite={obj => onAddToFavorite(obj)}
 						addToCart={obj => onAddToCart(obj)}
-						addOn={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+						addOn={hasAddedItem(item && item.id)}
 						loading={isLoading}
 						{...item}
 					/>
