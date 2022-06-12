@@ -1,16 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../hooks/useCart'
 import AppContext from '../context'
 import '../scss/components/Header.scss'
 
-import logo from '../assets/img/Header/logo.png'
-import cart from '../assets/img/Header/cart.svg'
-import heart from '../assets/img/Header/heart.svg'
-import heartActive from '../assets/img/Header/header-heart-active.svg'
-import order from '../assets/img/Header/order.svg'
+import { logo, cart, heart, heartActive, order } from '../assets/img/index'
 
 function Header({ onOpenCart }) {
 	const { cartItems, favoriteItems } = React.useContext(AppContext)
+	const { totalPrice } = useCart()
+
 	return (
 		<header className="header">
 			<Link to={'/'}>
@@ -30,7 +29,7 @@ function Header({ onOpenCart }) {
 							{!!cartItems.length && <span>{cartItems.length}</span>}
 							<img src={cart} alt="Корзина" />
 						</div>
-						<span>1000 руб.</span>
+						<span>{totalPrice} руб.</span>
 					</li>
 					<Link to="/favorites">
 						<li className="nav-header__item">
@@ -41,7 +40,7 @@ function Header({ onOpenCart }) {
 							)}
 						</li>
 					</Link>
-					<Link to="/order">
+					<Link to="/orders">
 						<li className="nav-header__item">
 							<img src={order} alt="Order" />
 						</li>

@@ -1,16 +1,31 @@
 import React from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
-import AppContext from '../context'
 import Empty from '../components/Empty'
 import Card from '../components/Card'
 
 import arrowBack from '../assets/img/arrow-back.svg'
 
-function Order() {
-	const { cartItems } = React.useContext(AppContext)
+function Orders() {
+	const [orders, setOrders] = React.useState([])
+	const [isLoading, setIsLoading] = React.useState(true)
+
+	React.useEffect(() => {
+		;(async () => {
+			try {
+				const { data } = await axios.get('https://628cd8df3df57e983ed76950.mockapi.io/orders')
+				setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []))
+				setIsLoading(false)
+			} catch (error) {
+				alert('Ошибка при запросе заказов')
+				console.error(error)
+			}
+		})()
+	}, [])
+
 	return (
 		<>
-			{cartItems.length ? (
+			{orders.length ? (
 				<div>
 					<div className="content__top">
 						<Link to={'/'}>
@@ -22,8 +37,8 @@ function Order() {
 					</div>
 					<div className="content__body">
 						<div className="content__list">
-							{cartItems.map(item => (
-								<Card key={item.id} {...item} />
+							{(isLoading ? [...Array(8)] : orders).map((item, index) => (
+								<Card key={index} loading={isLoading} {...item} />
 							))}
 						</div>
 					</div>
@@ -39,4 +54,4 @@ function Order() {
 	)
 }
 
-export default Order
+export default Orders

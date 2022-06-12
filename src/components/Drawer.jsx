@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import AppContext from '../context'
+import { useCart } from '../hooks/useCart'
 import '../scss/components/Drawer.scss'
 
 import Empty from './Empty'
@@ -12,7 +13,8 @@ import completeOrder from '../assets/img/complete-order.jpg'
 const delay = () => new Promise(resolve => setTimeout(resolve, 1000))
 
 function Drawer({ onRemoveItem, drawerClose }) {
-	const { cartItems = [], setCartOpened, setCartItems, baseUrl } = React.useContext(AppContext)
+	const { setCartOpened, baseUrl } = React.useContext(AppContext)
+	const { cartItems = [], setCartItems, totalPrice } = useCart()
 
 	const [isOrderComplete, setIOrdersComplete] = React.useState(false)
 	const [orderId, setOrderId] = React.useState(null)
@@ -22,7 +24,6 @@ function Drawer({ onRemoveItem, drawerClose }) {
 		try {
 			setIsLoading(true)
 			const { data } = await axios.post(`${baseUrl}/orders`, { items: cartItems })
-
 			setOrderId(data.id)
 			setIOrdersComplete(true)
 			setCartItems([])
@@ -80,11 +81,13 @@ function Drawer({ onRemoveItem, drawerClose }) {
 						<div className="drawers__footer footer-drawers">
 							<div className="footer-drawers__price">
 								Итого:<span className="dashed"></span>
-								<span className="footer-drawers__total-price">21498 руб.</span>
+								<span className="footer-drawers__total-price">{totalPrice} руб.</span>
 							</div>
 							<div className="footer-drawers__tax">
 								Налог 5%:<span className="dashed"></span>
-								<span className="footer-drawers__total-tax">1074 руб.</span>
+								<span className="footer-drawers__total-tax">
+									{Math.round(totalPrice * 0.05)} руб.
+								</span>
 							</div>
 							<button
 								disabled={isLoading}
