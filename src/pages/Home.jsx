@@ -34,7 +34,7 @@ function Home({ catalog, isLoading, btnRemove }) {
 			<Slider />
 			<div className="content__top">
 				<h1 className="content__title main-title">
-					{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все крассовки'}
+					{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}
 				</h1>
 				<div className="content__search">
 					{searchValue && (
