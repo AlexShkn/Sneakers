@@ -29,14 +29,16 @@ function Card({ id, imageUrl, title, price, onFavorite, addToCart, favorited, lo
 			) : (
 				<>
 					<div className="card__image">
-						<button onClick={onClickFavorite} className="card__favorite">
-							<img
-								width={22}
-								height={22}
-								src={isFavorite ? heartActive : heartNone}
-								alt="unliked"
-							/>
-						</button>
+						{onFavorite && (
+							<button onClick={onClickFavorite} className="card__favorite">
+								<img
+									width={22}
+									height={22}
+									src={isFavorite ? heartActive : heartNone}
+									alt="unliked"
+								/>
+							</button>
+						)}
 						<img width={133} height={112} src={imageUrl} alt="sneakers" />
 					</div>
 					<div className="card__description">{title}</div>
@@ -44,12 +46,14 @@ function Card({ id, imageUrl, title, price, onFavorite, addToCart, favorited, lo
 						<div className="card__price">
 							Цена:<span>{price} руб.</span>
 						</div>
-						<img
-							onClick={onClickPlus}
-							className="card__plus"
-							src={hasAddedItem(id) ? btnChecked : btnPlus}
-							alt="plus"
-						/>
+						{addToCart && (
+							<img
+								onClick={onClickPlus}
+								className="card__plus"
+								src={hasAddedItem(id) ? btnChecked : btnPlus}
+								alt="plus"
+							/>
+						)}
 					</div>
 				</>
 			)}

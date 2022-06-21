@@ -23,32 +23,40 @@ function App() {
 
 	React.useEffect(() => {
 		async function fetchData() {
-			const itemsResponse = await axios.get(`${baseUrl}/items`)
-			const cartResponse = await axios.get(`${baseUrl}/cart`)
-			const favoriteResponse = await axios.get(`${baseUrl}/favorite`)
+			try {
+				const itemsResponse = await axios.get(`${baseUrl}/items`)
+				const cartResponse = await axios.get(`${baseUrl}/cart`)
+				const favoriteResponse = await axios.get(`${baseUrl}/favorite`)
 
-			setIsLoading(false)
-			setCatalog(itemsResponse.data)
-			setCartItems(cartResponse.data)
-			setFavoriteItems(favoriteResponse.data)
+				setIsLoading(false)
+				setCatalog(itemsResponse.data)
+				setCartItems(cartResponse.data)
+				setFavoriteItems(favoriteResponse.data)
+			} catch (error) {
+				alert('Не удалось сделать запрос данных')
+			}
 		}
 
 		fetchData()
 	}, [])
 
 	const onRemoveItem = id => {
-		axios.delete(`${baseUrl}/cart/${id}`)
-		setCartItems(prev => prev.filter(item => item.id !== id))
+		try {
+			axios.delete(`${baseUrl}/cart/${id}`)
+			setCartItems(prev => prev.filter(item => item.id !== id))
+		} catch (error) {
+			alert('Не удалось удалить')
+		}
 	}
 
 	const onAddToCart = async obj => {
 		try {
 			if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
-				axios.delete(`${baseUrl}/cart/${obj.id}`)
 				setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
+				await axios.delete(`${baseUrl}/cart/${obj.id}`)
 			} else {
-				axios.post(`${baseUrl}/cart`, obj)
 				setCartItems(prev => [...prev, obj])
+				await axios.post(`${baseUrl}/cart`, obj)
 			}
 		} catch (error) {
 			alert('Не удалось добавить в корзину')
@@ -88,7 +96,8 @@ function App() {
 				baseUrl,
 			}}>
 			<div className="wrapper">
-				{cartOpened && <Drawer onRemoveItem={onRemoveItem} drawerClose={btnRemove} />}
+				<Drawer onRemoveItem={onRemoveItem} drawerClose={btnRemove} opened={cartOpened} />
+
 				<div className="container">
 					<Header onOpenCart={() => setCartOpened(true)} />
 					<div className="content">

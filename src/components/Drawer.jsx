@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+
 import AppContext from '../context'
 import { useCart } from '../hooks/useCart'
 import '../scss/components/Drawer.scss'
@@ -10,9 +11,9 @@ import arrowBtn from '../assets/img/arrow.svg'
 import emptyCart from '../assets/img/empty-cart.jpg'
 import completeOrder from '../assets/img/complete-order.jpg'
 
-const delay = () => new Promise(resolve => setTimeout(resolve, 1000))
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-function Drawer({ onRemoveItem, drawerClose }) {
+function Drawer({ onRemoveItem, drawerClose, opened }) {
 	const { setCartOpened, baseUrl } = React.useContext(AppContext)
 	const { cartItems = [], setCartItems, totalPrice } = useCart()
 
@@ -27,19 +28,20 @@ function Drawer({ onRemoveItem, drawerClose }) {
 			setOrderId(data.id)
 			setIOrdersComplete(true)
 			setCartItems([])
+
 			for (let i = 0; i < cartItems.length; i++) {
 				const item = cartItems[i]
 				await axios.delete(`${baseUrl}/cart/` + item.id)
-				await delay()
+				await delay(1000)
 			}
 		} catch (error) {
-			alert('Не удалось создать заказ :(')
+			console.log('Не удалось создать заказ :(')
 		}
 		setIsLoading(false)
 	}
 
 	return (
-		<div className="drawer">
+		<div className={`${!opened ? 'drawer' : 'drawer drawer-open'}`}>
 			<div className="drawer__panel">
 				<div className="drawer__top">
 					<h2 className="drawer__title">Корзина</h2>
