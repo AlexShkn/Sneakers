@@ -12,13 +12,14 @@ import heartNone from '../assets/img/Card/heart-none.svg'
 function Card({ id, imageUrl, title, price, onFavorite, addToCart, favorited, loading = false }) {
 	const { hasAddedItem } = React.useContext(AppContext)
 	const [isFavorite, setIsFavorite] = React.useState(favorited)
+	const cardProps = { id, parentId: id, imageUrl, title, price }
 
 	const onClickPlus = () => {
-		addToCart({ id, imageUrl, title, price })
+		addToCart(cardProps)
 	}
 
 	const onClickFavorite = () => {
-		onFavorite({ id, imageUrl, title, price })
+		onFavorite(cardProps)
 		setIsFavorite(!isFavorite)
 	}
 

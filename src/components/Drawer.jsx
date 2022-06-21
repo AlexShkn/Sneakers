@@ -14,10 +14,10 @@ import completeOrder from '../assets/img/complete-order.jpg'
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 function Drawer({ onRemoveItem, drawerClose, opened }) {
-	const { setCartOpened, baseUrl } = React.useContext(AppContext)
+	const { setCartOpened, baseUrl, isOrderComplete, setIsOrdersComplete } =
+		React.useContext(AppContext)
 	const { cartItems = [], setCartItems, totalPrice } = useCart()
 
-	const [isOrderComplete, setIOrdersComplete] = React.useState(false)
 	const [orderId, setOrderId] = React.useState(null)
 	const [isLoading, setIsLoading] = React.useState(false)
 
@@ -26,7 +26,7 @@ function Drawer({ onRemoveItem, drawerClose, opened }) {
 			setIsLoading(true)
 			const { data } = await axios.post(`${baseUrl}/orders`, { items: cartItems })
 			setOrderId(data.id)
-			setIOrdersComplete(true)
+			setIsOrdersComplete(true)
 			setCartItems([])
 
 			for (let i = 0; i < cartItems.length; i++) {
@@ -55,8 +55,8 @@ function Drawer({ onRemoveItem, drawerClose, opened }) {
 				{cartItems.length ? (
 					<div className="drawer__content">
 						<div className="drawer__items">
-							{cartItems.map(item => (
-								<div key={item.id} className="item-drawer">
+							{cartItems.map((item, index) => (
+								<div key={index} className="item-drawer">
 									<div className="item-drawer__image">
 										<img width={70} height={70} src={item.imageUrl} alt="" />
 									</div>

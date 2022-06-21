@@ -18,6 +18,7 @@ function App() {
 	const [favoriteItems, setFavoriteItems] = React.useState([])
 	const [cartOpened, setCartOpened] = React.useState(false)
 	const [isLoading, setIsLoading] = React.useState(true)
+	const [isOrderComplete, setIsOrdersComplete] = React.useState(false)
 
 	const baseUrl = 'https://628cd8df3df57e983ed76950.mockapi.io'
 
@@ -43,7 +44,7 @@ function App() {
 	const onRemoveItem = id => {
 		try {
 			axios.delete(`${baseUrl}/cart/${id}`)
-			setCartItems(prev => prev.filter(item => item.id !== id))
+			setCartItems(prev => prev.filter(item => Number(item.id) !== Number(id)))
 		} catch (error) {
 			alert('Не удалось удалить')
 		}
@@ -51,12 +52,25 @@ function App() {
 
 	const onAddToCart = async obj => {
 		try {
-			if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
-				setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
-				await axios.delete(`${baseUrl}/cart/${obj.id}`)
+			const findItem = cartItems.find(item => Number(item.parentId) === Number(obj.id))
+
+			if (findItem) {
+				setCartItems(prev => prev.filter(item => Number(item.parentId) !== Number(obj.id)))
+				await axios.delete(`${baseUrl}/cart/${findItem.id}`)
 			} else {
 				setCartItems(prev => [...prev, obj])
-				await axios.post(`${baseUrl}/cart`, obj)
+				const { data } = await axios.post(`${baseUrl}/cart`, obj)
+				setCartItems(prev =>
+					prev.map(item => {
+						if (item.parentId === data.parentId) {
+							return {
+								...item,
+								id: data.id,
+							}
+						}
+						return item
+					}),
+				)
 			}
 		} catch (error) {
 			alert('Не удалось добавить в корзину')
@@ -68,7 +82,7 @@ function App() {
 			if (favoriteItems.find(favoriteObj => Number(favoriteObj.id) === Number(obj.id))) {
 				setTimeout(() => {
 					axios.delete(`${baseUrl}/favorite/${obj.id}`)
-					setFavoriteItems(prev => prev.filter(item => item.id !== obj.id))
+					setFavoriteItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
 				}, 3000)
 			} else {
 				const { data } = await axios.post(`${baseUrl}/favorite`, obj)
@@ -80,7 +94,7 @@ function App() {
 	}
 
 	const hasAddedItem = id => {
-		return cartItems.some(obj => Number(obj.id) === Number(id))
+		return cartItems.some(obj => Number(obj.parentId) === Number(id))
 	}
 
 	return (
@@ -93,6 +107,8 @@ function App() {
 				onAddToFavorite,
 				onAddToCart,
 				setCartOpened,
+				isOrderComplete,
+				setIsOrdersComplete,
 				baseUrl,
 			}}>
 			<div className="wrapper">

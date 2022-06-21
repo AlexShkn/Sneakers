@@ -6,7 +6,12 @@ import AppContext from '../context'
 import arrowBtn from '../assets/img/arrow.svg'
 
 const Empty = ({ smile, title, image, description }) => {
-	const { setCartOpened } = React.useContext(AppContext)
+	const { setCartOpened, isOrderComplete, setIsOrdersComplete } = React.useContext(AppContext)
+
+	const stateSwitching = () => {
+		setCartOpened(false)
+		if (isOrderComplete) setIsOrdersComplete(false)
+	}
 
 	return (
 		<div className="empty">
@@ -14,7 +19,7 @@ const Empty = ({ smile, title, image, description }) => {
 			<h2>{title}</h2>
 			<p>{description}</p>
 			<Link to={'/'}>
-				<button onClick={() => setCartOpened(false)} className="green-button">
+				<button onClick={() => stateSwitching()} className="green-button">
 					Вернуться назад
 					<img src={arrowBtn} alt="back" />
 				</button>
